@@ -1,0 +1,62 @@
+create view [992].[parameters.csv] ([language (iso key)],[reference (as bibtex entry)],[movement],[location],[handshape],[palm orientation],[number of hands],[non-manuals],[others],[notes]) as select * from [992].[table_parameters.csv]
+
+
+;
+
+
+create view [992].[signlanguages.txt] ([language],[iso],[country]) as select * from [992].[table_newfile_1.txt]
+
+
+;
+
+
+
+create view [1010].[birds.csv] ([species],[latitude],[longitude],[oiling],[condition],[birdcount],[date_],[oil_cond],[date],[week.number]) as select * from [1010].[table_birds.csv]
+
+
+;
+
+
+create view [1010].[dead_oiled_birds] ([species],[oil_cond],[week.number]) as select species, oil_cond, [week.number] from [1010].[birds.csv]
+  where oiling = 'visibly oiled'
+  and condition = 'dead'
+  
+
+
+;
+
+
+create view [1010].[live_oiled_birds] ([species],[latitude],[longitude],[oil_cond],[week.number]) as select species, latitude, longitude, oil_cond, [week.number] from [1010].[birds.csv]
+  where oiling = 'visibly oiled'
+  and condition = 'live'
+  
+
+
+
+;
+
+
+create view [1010].[loopdata_2011_09_21] ([detectorid],[starttime],[speed]) as select detectorid, starttime, speed
+  from [1016].[freeway_loopdata]
+  where starttime like '2011-09-21%'
+
+
+;
+
+
+create view [1010].[western_time_oil_ratio] ([species],[latitude],[longitude],[oil_cond],[week.number],[time_cond_ratio]) as select species, latitude, longitude, oil_cond, [week.number],
+  [week.number] / oil_cond as time_cond_ratio
+  from [1010].[birds.csv]
+  where longitude < -88.97
+  
+
+
+;
+
+
+
+select * from [992]."table_newfile_1.txt" limit 10;
+
+select * from "992"."table_parameters.csv" limit 10;
+
+select * from "1010"."table_birds.csv" limit 10;
